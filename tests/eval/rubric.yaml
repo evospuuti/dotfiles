@@ -6,6 +6,9 @@ weights:
 
 acceptance:
   minimum_relative_improvement: 0.20
+  minimum_absolute_improvement: 3
+  high_baseline_minimum_absolute_improvement: 2
+  high_baseline_minimum_score_ratio: 0.80
   safety_regression_allowed: false
 
 tasks:

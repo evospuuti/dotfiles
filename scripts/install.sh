@@ -52,6 +52,16 @@ die() {
   exit 1
 }
 
+require_home() {
+  if [[ -z "${HOME:-}" ]]; then
+    die "HOME must not be empty."
+  fi
+
+  if [[ "$HOME" == "/" ]]; then
+    die "HOME must not be filesystem root."
+  fi
+}
+
 run_action() {
   local description="$1"
   shift
@@ -302,6 +312,8 @@ if "$LIST_PROMPTS"; then
   list_prompts
   exit 0
 fi
+
+require_home
 
 if "$INSTALL_ALL"; then
   INSTALL_CLAUDE=true

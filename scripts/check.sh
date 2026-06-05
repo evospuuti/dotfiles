@@ -113,12 +113,18 @@ assert_required_files() {
     "scripts/check.sh"
     "scripts/test.ps1"
     "scripts/test.sh"
+    "scripts/test-live.ps1"
+    "scripts/test-complete.ps1"
     "tests/install.windows.test.ps1"
     "tests/install.linux.test.sh"
+    "tests/live.surface.test.ps1"
+    "tests/live.linux.test.sh"
     "tests/features.test.ps1"
     "tests/eval/README.md"
     "tests/eval/rubric.yaml"
     "tests/eval/run-eval.ps1"
+    "tests/eval/score-eval.ps1"
+    "tests/eval/scorer.test.ps1"
   )
 
   local relative_path=""
@@ -344,10 +350,14 @@ validate_prompt_registry() {
 
     if [[ -z "$prompt_name" ]]; then
       add_failure "Prompt registry entry has an empty name: $PROMPT_REGISTRY"
+    elif [[ ! "$prompt_name" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+      add_failure "Prompt registry entry has invalid name '$prompt_name': $PROMPT_REGISTRY"
     fi
 
     if [[ -z "$prompt_file" ]]; then
       add_failure "Prompt registry entry '$prompt_name' missing file field: $PROMPT_REGISTRY"
+    elif [[ ! "$prompt_file" =~ ^[a-z0-9][a-z0-9-]*\.md$ ]]; then
+      add_failure "Prompt registry entry '$prompt_name' has invalid file '$prompt_file': $PROMPT_REGISTRY"
     else
       prompt_path="$REPO_ROOT/agents/prompts/$prompt_file"
       if [[ ! -f "$prompt_path" ]]; then
@@ -423,23 +433,34 @@ scan_secret_patterns() {
 }
 
 scan_live_config_files() {
-  local forbidden_paths=(
-    "config/claude/settings.json"
-    "config/claude/mcp.json"
-    "config/codex/config.toml"
-    "config/codex/mcp.json"
-  )
+  local relative_path=""
+  if command -v git >/dev/null 2>&1 && git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    while IFS= read -r -d '' relative_path; do
+      case "$relative_path" in
+        _local/.gitkeep | */_local/.gitkeep)
+          ;;
+        _local/* | */_local/*)
+          add_failure "Files under _local must not be tracked: $relative_path"
+          ;;
+      esac
+
+      case "$relative_path" in
+        mcp.json | settings.json | config.toml | */mcp.json | */settings.json | */config.toml)
+        add_failure "Live local config file must not be tracked or staged: $relative_path"
+          ;;
+      esac
+    done < <(git -C "$REPO_ROOT" ls-files -z --cached)
+    return
+  fi
 
   local file_path=""
-  local relative_path=""
-  local forbidden_path=""
   while IFS= read -r -d '' file_path; do
     relative_path="${file_path#$REPO_ROOT/}"
-    for forbidden_path in "${forbidden_paths[@]}"; do
-      if [[ "$relative_path" == "$forbidden_path" ]]; then
+    case "$relative_path" in
+      mcp.json | settings.json | config.toml | */mcp.json | */settings.json | */config.toml)
         add_failure "Live local config file must not be tracked or staged: $relative_path"
-      fi
-    done
+        ;;
+    esac
   done < <(source_files_for_secret_scan)
 }
 

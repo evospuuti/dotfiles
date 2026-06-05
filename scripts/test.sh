@@ -6,5 +6,6 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 "$REPO_ROOT/scripts/check.sh"
 bash "$REPO_ROOT/tests/install.linux.test.sh"
+bash "$REPO_ROOT/tests/live.linux.test.sh"
 
 printf 'Linux test suite passed.\n'

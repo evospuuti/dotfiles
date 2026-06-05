@@ -108,12 +108,18 @@ function Assert-RequiredFiles {
         'scripts/check.sh',
         'scripts/test.ps1',
         'scripts/test.sh',
+        'scripts/test-live.ps1',
+        'scripts/test-complete.ps1',
         'tests/install.windows.test.ps1',
         'tests/install.linux.test.sh',
+        'tests/live.surface.test.ps1',
+        'tests/live.linux.test.sh',
         'tests/features.test.ps1',
         'tests/eval/README.md',
         'tests/eval/rubric.yaml',
-        'tests/eval/run-eval.ps1'
+        'tests/eval/run-eval.ps1',
+        'tests/eval/score-eval.ps1',
+        'tests/eval/scorer.test.ps1'
     )
 
     foreach ($relativePath in $requiredFiles) {
@@ -362,9 +368,15 @@ function Test-PromptRegistry {
         if ([string]::IsNullOrWhiteSpace($entry.Name)) {
             Add-Failure "Prompt registry entry has an empty name: $registryPath"
         }
+        elseif ($entry.Name -notmatch '^[a-z0-9][a-z0-9-]*$') {
+            Add-Failure "Prompt registry entry has invalid name '$($entry.Name)': $registryPath"
+        }
 
         if ([string]::IsNullOrWhiteSpace($entry.File)) {
             Add-Failure "Prompt registry entry '$($entry.Name)' missing file field: $registryPath"
+        }
+        elseif ($entry.File -notmatch '^[a-z0-9][a-z0-9-]*\.md$') {
+            Add-Failure "Prompt registry entry '$($entry.Name)' has invalid file '$($entry.File)': $registryPath"
         }
         else {
             $promptPath = Join-Path $promptRoot $entry.File
@@ -413,6 +425,26 @@ function Get-SourceFilesForSecretScan {
         ForEach-Object { $_.FullName }
 }
 
+function Get-GitTrackedPaths {
+    $git = Get-Command git -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $git) {
+        return @()
+    }
+
+    $tracked = @(& $git.Source -C $RepoRoot ls-files --cached 2>$null)
+    if ($LASTEXITCODE -ne 0) {
+        return @()
+    }
+
+    foreach ($relativePath in $tracked) {
+        if ([string]::IsNullOrWhiteSpace($relativePath)) {
+            continue
+        }
+
+        $relativePath -replace '\\', '/'
+    }
+}
+
 function Test-SecretPatterns {
     $secretChecks = @(
         @{ Label = 'OpenAI-style key prefix'; Pattern = ('s' + 'k-') },
@@ -439,21 +471,13 @@ function Test-SecretPatterns {
 }
 
 function Test-LiveConfigFiles {
-    $forbiddenRelativePaths = @(
-        'config/claude/settings.json',
-        'config/claude/mcp.json',
-        'config/codex/config.toml',
-        'config/codex/mcp.json'
-    )
-
-    $repoPrefix = $RepoRoot.TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
-    foreach ($filePath in @(Get-SourceFilesForSecretScan)) {
-        if (-not $filePath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+    foreach ($relativePath in @(Get-GitTrackedPaths)) {
+        if ($relativePath -match '(^|/)_local/' -and $relativePath -notmatch '(^|/)_local/\.gitkeep$') {
+            Add-Failure "Files under _local must not be tracked: $relativePath"
             continue
         }
 
-        $relativePath = $filePath.Substring($repoPrefix.Length) -replace '\\', '/'
-        if ($forbiddenRelativePaths -contains $relativePath) {
+        if ($relativePath -match '(^|/)(mcp\.json|settings\.json|config\.toml)$') {
             Add-Failure "Live local config file must not be tracked or staged: $relativePath"
         }
     }

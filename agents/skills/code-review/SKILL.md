@@ -15,3 +15,5 @@ For each finding include:
 - a focused fix direction.
 
 If no issues are found, say so and mention remaining test gaps or residual risk.
+
+For dotfiles or agent-config repositories, check `.gitignore` and `docs/secrets.md` before concluding that secrets or live local config are handled safely.
