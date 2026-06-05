@@ -8,7 +8,8 @@ param(
     [switch]$DryRun,
     [switch]$Backup,
     [switch]$ListPrompts,
-    [string[]]$Prompt
+    [string[]]$Prompt,
+    [string]$HomeRoot = $HOME
 )
 
 Set-StrictMode -Version Latest
@@ -41,7 +42,11 @@ function Join-HomePath {
         [string[]]$Parts
     )
 
-    $path = $HOME
+    if ([string]::IsNullOrWhiteSpace($HomeRoot)) {
+        throw "HomeRoot must not be empty."
+    }
+
+    $path = $HomeRoot
     foreach ($part in $Parts) {
         $path = Join-Path $path $part
     }

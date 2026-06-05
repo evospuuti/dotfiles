@@ -10,6 +10,8 @@ Preview changes before touching local tool config:
 
 By default, install targets are Claude and Codex only. Git and shell config require explicit flags such as `-Git` and `-Shell`.
 
+Use `-HomeRoot <path>` for isolated test installs. Do not point it at a real home directory unless you intend to install there.
+
 ## PowerShell Install
 
 Install Claude and Codex config with backups enabled:

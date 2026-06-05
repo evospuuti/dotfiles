@@ -6,6 +6,8 @@ Use `scripts/install.ps1` from a PowerShell session. Prefer backup mode when ins
 
 The `-Shell` scope copies the PowerShell helper to `~/.config/ai-dots/` only. It does not overwrite `$PROFILE`; dot-source it manually if you want it active.
 
+Use `scripts/test.ps1` to verify the Windows installer with an isolated temporary home.
+
 ## WSL2
 
 Run the Bash installer inside the Linux filesystem when possible. Avoid installing from `/mnt/c` unless you intentionally want Windows files touched from WSL2. Keep WSL2 and Windows tool configs separate unless the path mapping is well understood.
@@ -13,6 +15,8 @@ Run the Bash installer inside the Linux filesystem when possible. Avoid installi
 ## Linux
 
 Use `scripts/install.sh` from the repository root. Symlinks usually work well on native Linux, but backup existing files before replacing tool configuration.
+
+Use `scripts/test.sh` to verify the Linux installer with an isolated temporary home.
 
 ## macOS
 

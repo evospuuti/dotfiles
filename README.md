@@ -29,3 +29,19 @@ Default install behavior targets Claude and Codex agent configuration only. Shel
 - `config/codex/` Codex-specific instructions, config templates, and MCP templates.
 - `scripts/` cross-platform install and check scripts.
 - `docs/` install, platform, MCP, secrets, agent loop, and LLM-readable usage notes.
+
+## Testing
+
+Windows:
+
+```powershell
+.\scripts\test.ps1
+```
+
+Linux:
+
+```bash
+./scripts/test.sh
+```
+
+The test suites install into isolated temporary homes and verify prompt selection, Claude and Codex adapter files, opt-in Claude extras, live config safety, and template validation. LLM output quality evals live under `tests/eval/` and require authenticated Claude Code or Codex CLI access.

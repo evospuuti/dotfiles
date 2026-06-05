@@ -105,7 +105,15 @@ function Assert-RequiredFiles {
         'scripts/install.ps1',
         'scripts/install.sh',
         'scripts/check.ps1',
-        'scripts/check.sh'
+        'scripts/check.sh',
+        'scripts/test.ps1',
+        'scripts/test.sh',
+        'tests/install.windows.test.ps1',
+        'tests/install.linux.test.sh',
+        'tests/features.test.ps1',
+        'tests/eval/README.md',
+        'tests/eval/rubric.yaml',
+        'tests/eval/run-eval.ps1'
     )
 
     foreach ($relativePath in $requiredFiles) {
