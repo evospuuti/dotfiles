@@ -1,0 +1,55 @@
+prompts:
+  - name: plan
+    file: plan.md
+    description: Turn a request into a scoped implementation plan before work starts.
+    tools:
+      - claude
+      - codex
+  - name: fix-ci
+    file: fix-ci.md
+    description: Diagnose failing CI then reproduce locally and fix and verify.
+    tools:
+      - claude
+      - codex
+  - name: gh-review
+    file: gh-review.md
+    description: Review GitHub PR context for bugs and regressions and security issues and missing tests.
+    tools:
+      - claude
+      - codex
+  - name: make-tests
+    file: make-tests.md
+    description: Add focused tests for a feature or bugfix.
+    tools:
+      - claude
+      - codex
+  - name: html-report
+    file: html-report.md
+    description: Produce a standalone HTML report for status or review or plan or analysis output.
+    tools:
+      - claude
+      - codex
+  - name: youtube-transcript
+    file: youtube-transcript.md
+    description: Extract and summarize a YouTube transcript when a video URL is provided.
+    tools:
+      - claude
+      - codex
+  - name: excalidraw
+    file: excalidraw.md
+    description: Create an Excalidraw diagram or a canvas ready diagram spec.
+    tools:
+      - claude
+      - codex
+  - name: subagent-review
+    file: subagent-review.md
+    description: Request independent review for implementation work before handoff.
+    tools:
+      - claude
+      - codex
+  - name: agent-loop
+    file: agent-loop.md
+    description: Run a bounded agent loop with checkpoints and stop conditions.
+    tools:
+      - claude
+      - codex

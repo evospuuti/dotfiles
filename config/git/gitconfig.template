@@ -1,0 +1,11 @@
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[push]
+	default = simple
+[alias]
+	st = status --short
+	co = checkout
+	br = branch
+	last = log -1 --stat

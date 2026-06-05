@@ -1,0 +1,12 @@
+* text=auto
+
+*.sh text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.json.template text eol=lf
+*.toml text eol=lf
+*.toml.template text eol=lf
+*.template text eol=lf
+*.gitkeep text eol=lf

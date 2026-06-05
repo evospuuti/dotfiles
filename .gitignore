@@ -1,0 +1,29 @@
+.env
+.env.*
+!.env.example
+*.local
+
+# Local MCP configs may contain credentials.
+**/mcp.json
+!**/mcp.json.template
+
+# Local live tool configs should be generated from templates.
+**/settings.json
+!**/settings.json.template
+**/config.toml
+!**/config.toml.template
+
+# Local-only override directories.
+**/_local/*
+!**/_local/.gitkeep
+
+# OS/editor noise.
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*.tmp
+
+# Generated output.
+outputs/
