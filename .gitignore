@@ -28,3 +28,4 @@ desktop.ini
 # Generated output.
 outputs/
 tests/eval/outputs/
+graphify-out/

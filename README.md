@@ -28,7 +28,7 @@ Default install behavior targets Claude and Codex agent configuration only. Shel
 - `config/claude/` Claude-specific instructions, commands, plugin notes, subagent templates, hook templates, settings templates, and MCP templates.
 - `config/codex/` Codex-specific instructions, config templates, and MCP templates.
 - `scripts/` cross-platform install and check scripts.
-- `docs/` install, platform, MCP, secrets, agent loop, and LLM-readable usage notes.
+- `docs/` install, platform, MCP, secrets, Graphify, agent loop, and LLM-readable usage notes.
 
 ## Testing
 

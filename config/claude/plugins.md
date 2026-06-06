@@ -7,6 +7,10 @@ This repository tracks plugin choices and usage notes only. It does not vendor p
 - `claude-code-setup`: official Claude Code setup plugin. Use it after cloning a real project to analyze the codebase and suggest MCPs, skills, hooks, subagents, and slash commands.
 - `superpowers`: disciplined workflow plugin for planning, TDD, debugging, verification, code review, and worktrees.
 
+## Optional External Tools
+
+- `graphify`: optional CLI and assistant skill for turning a project into a queryable knowledge graph. Keep it opt-in; install with `uv tool install graphifyy` and then run `graphify install --project` only in repositories where graph-backed analysis is wanted.
+
 ## Manual Install
 
 Review the current Claude plugin marketplace before installing because package names can change.

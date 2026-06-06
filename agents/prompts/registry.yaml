@@ -53,3 +53,9 @@ prompts:
     tools:
       - claude
       - codex
+  - name: graphify
+    file: graphify.md
+    description: Use Graphify for graph-backed repository orientation and architecture analysis.
+    tools:
+      - claude
+      - codex
