@@ -9,9 +9,10 @@ Agents should read files in this order:
 3. `agents/AGENTS.md`
 4. The relevant tool adapter README, such as `config/claude/README.md` or `config/codex/README.md`
 5. `docs/install.md`
-6. `docs/mcp.md`
-7. `docs/secrets.md`
-8. When relevant, `docs/graphify.md`, `config/claude/plugins.md`, `config/claude/hooks/README.md`, `config/claude/agents/README.md`, and `docs/agent-loops.md`
+6. `docs/context.md`
+7. `docs/mcp.md`
+8. `docs/secrets.md`
+9. When relevant, `docs/graphify.md`, `config/claude/plugins.md`, `config/claude/hooks/README.md`, `config/claude/agents/README.md`, and `docs/agent-loops.md`
 
 ## Files Agents May Edit
 

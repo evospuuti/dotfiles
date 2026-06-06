@@ -28,7 +28,7 @@ Default install behavior targets Claude and Codex agent configuration only. Shel
 - `config/claude/` Claude-specific instructions, commands, plugin notes, subagent templates, hook templates, settings templates, and MCP templates.
 - `config/codex/` Codex-specific instructions, config templates, and MCP templates.
 - `scripts/` cross-platform install and check scripts.
-- `docs/` install, platform, MCP, secrets, Graphify, agent loop, and LLM-readable usage notes.
+- `docs/` install, platform, context, MCP, secrets, Graphify, agent loop, and LLM-readable usage notes.
 
 ## Testing
 
@@ -50,6 +50,13 @@ Complete Windows harness checks:
 .\scripts\test-complete.ps1
 ```
 
+Feature activation checks:
+
+```powershell
+.\scripts\test-activation.ps1
+.\scripts\test-activation.ps1 -RunModelCalls -RequireGraphify
+```
+
 Run real Claude and Codex model calls only when authenticated and willing to spend subscription or API budget:
 
 ```powershell
@@ -61,6 +68,8 @@ Linux, WSL2, or macOS deterministic tests:
 
 ```bash
 ./scripts/test.sh
+./scripts/test-activation.sh
+./scripts/test-activation.sh --run-model-calls --require-claude --require-codex --require-graphify
 ```
 
-The test suites install into isolated temporary homes and verify prompt selection, Claude and Codex adapter files, skills, opt-in Claude extras, live config safety, backup behavior, CodeRabbit surface checks when available, and template validation. LLM output quality evals live under `tests/eval/` and require authenticated Claude Code or Codex CLI access.
+The test suites install into isolated temporary homes and verify prompt selection, Claude and Codex adapter files, skills, opt-in Claude extras, live config safety, backup behavior, CodeRabbit surface checks when available, MCP activation, plugin availability, Graphify activation when installed, and template validation. LLM output quality evals live under `tests/eval/` and require authenticated Claude Code or Codex CLI access.

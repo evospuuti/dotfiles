@@ -10,11 +10,15 @@ Use `scripts/test.ps1` to verify the Windows installer with an isolated temporar
 
 Use `scripts/test-live.ps1` to verify installed Claude Code and Codex CLI command surfaces. Add `-RunModelCalls` only when authenticated and willing to spend subscription or API budget.
 
+Use `scripts/test-activation.ps1 -RunModelCalls -RequireGraphify` to run the full feature activation harness for hooks, MCP, skills, prompts, plugins, subagents, and Graphify.
+
 ## WSL2
 
 Run the Bash installer inside the Linux filesystem when possible. Avoid installing from `/mnt/c` unless you intentionally want Windows files touched from WSL2. Keep WSL2 and Windows tool configs separate unless the path mapping is well understood.
 
 `scripts/test.sh` verifies the Linux installer and checks Claude, Codex, and CodeRabbit CLI surfaces when the commands are available in `PATH`. Missing optional CLIs are reported as skips.
+
+`scripts/test-activation.sh --run-model-calls --require-claude --require-codex --require-graphify` is the strict Linux activation path. It requires authenticated Claude and Codex CLIs plus Graphify in `PATH`.
 
 ## Linux
 
@@ -23,6 +27,8 @@ Use `scripts/install.sh` from the repository root. Symlinks usually work well on
 Use `scripts/test.sh` to verify the Linux installer with an isolated temporary home.
 
 The Linux test path does not make model calls. Use the Windows PowerShell live test with `-RunModelCalls` for authenticated Claude and Codex calls unless you have installed both CLIs inside the Linux environment.
+
+The Linux activation path can make model calls when `--run-model-calls` is provided.
 
 ## macOS
 
